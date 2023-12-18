@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.Test;
 
+import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,7 +19,7 @@ class ShopServiceTest {
         Order actual = shopService.addOrder(productsIds);
 
         //THEN
-        Order expected = new Order("-1", List.of(new Product("1", "Apfel")));
+        Order expected = new Order("-1", List.of(new Product("1", "Apfel")),OrderStatus.PROCESSING, ZonedDateTime.now());
         assertEquals(expected.products(), actual.products());
         assertNotNull(expected.id());
     }
@@ -25,12 +28,34 @@ class ShopServiceTest {
     void addOrderTest_whenInvalidProductId_expectNull() {
         //GIVEN
         ShopService shopService = new ShopService();
-        List<String> productsIds = List.of("1", "2");
+        List<String> productsIds = List.of("5", "2");
 
-        //WHEN
-        Order actual = shopService.addOrder(productsIds);
+
+
+
 
         //THEN
-        assertNull(actual);
+        assertThrows(NoSuchElementException.class,() -> shopService.addOrder(productsIds));
     }
+
+    @Test
+    void findOrderByStatusTest_whenOrderStatus_expectListOfOrders(){
+        //GIVEN
+        ShopService shopService = new ShopService();
+
+        List<String> products= List.of("1","2","3","4");
+
+        shopService.addOrder(products);
+        shopService.addOrder(products);
+        shopService.addOrder(products);
+
+        //When
+        int expected = 3;
+
+        //Then
+        assertEquals(3,shopService.findOrderByStatus(OrderStatus.PROCESSING).size() );
+
+
+    }
+
 }
