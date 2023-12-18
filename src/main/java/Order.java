@@ -1,7 +1,10 @@
-import java.util.List;
+import lombok.Value;
 
+import java.util.List;
+@Value
 public record Order(
         String id,
-        List<Product> products
+        List<Product> products,
+        OrderStatus status
 ) {
 }
