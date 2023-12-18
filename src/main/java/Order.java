@@ -1,7 +1,11 @@
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.util.List;
-@Value
+
+
+
 public record Order(
         String id,
         List<Product> products,
