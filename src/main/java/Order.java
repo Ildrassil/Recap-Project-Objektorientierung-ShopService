@@ -8,6 +8,7 @@ import java.util.List;
 
 @Builder
 @With
+
 public record Order(
         String id,
         List<Product> products,
@@ -15,4 +16,8 @@ public record Order(
         ZonedDateTime time
 ) {
 
+    public OrderStatus getOrderStatus(){
+
+        return status;
+    }
 }

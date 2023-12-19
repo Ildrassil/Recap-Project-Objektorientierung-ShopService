@@ -12,7 +12,7 @@ public class ShopService {
     private final OrderRepo orderRepo;
 
 
-    public Order addOrder(List<String> productIds) throws NoSuchElementException {
+    public Order addOrder(String idService,List<String> productIds) throws NoSuchElementException {
 
         List<Product> products = new ArrayList<>();
 
@@ -32,7 +32,7 @@ public class ShopService {
 
 
 
-        Order newOrder = new Order(UUID.randomUUID().toString(), products, OrderStatus.PROCESSING, ZonedDateTime.now());
+        Order newOrder = new Order(idService, products, OrderStatus.PROCESSING, ZonedDateTime.now());
 
         return orderRepo.addOrder(newOrder);
     }
@@ -48,6 +48,11 @@ public class ShopService {
     }
     public Order updateOrder(String orderId){
       return orderRepo.getOrderById(orderId).withStatus(OrderStatus.PACKAGING);
+
+
+    }
+    public Map<OrderStatus,Order> getOldestOrderPerStatus(){
+        Map<OrderStatus, Order> = new HashMap<>();
 
 
     }
