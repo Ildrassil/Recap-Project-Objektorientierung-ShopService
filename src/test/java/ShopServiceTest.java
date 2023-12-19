@@ -21,7 +21,7 @@ class ShopServiceTest {
         String id = idService.genrateId();
 
         //WHEN
-        Order actual = shopService.addOrder(id,productsIds);
+        Order actual = shopService.addOrder(productsIds);
 
         //THEN
         Order expected = new Order("-1", List.of(new Product("1", "Apfel")),OrderStatus.PROCESSING, ZonedDateTime.now());
@@ -46,7 +46,7 @@ class ShopServiceTest {
 
 
         //THEN
-        assertThrows(NoSuchElementException.class,() -> shopService.addOrder(id,productsIds));
+        assertThrows(NoSuchElementException.class,() -> shopService.addOrder(productsIds));
     }
 
     @Test
@@ -60,13 +60,11 @@ class ShopServiceTest {
 
         //then
         List<String> products= List.of("1","2","3","4");
-        String id = idService.genrateId();
-        String id2 = idService.genrateId();
-        String id3 = idService.genrateId();
-        shopService.addOrder(id,products);
-        shopService.addOrder(id2,products);
-        shopService.addOrder(id3,products);
-        shopService.updateOrder(id3);
+
+        shopService.addOrder(products);
+        shopService.addOrder(products);
+        Order order3 =shopService.addOrder(products);
+        shopService.updateOrder(order3.id());
 
         //When
         int expected = 2;
@@ -86,13 +84,11 @@ class ShopServiceTest {
 
         //then
         List<String> products= List.of("1","2","3","4");
-        String id = idService.genrateId();
-        String id2 = idService.genrateId();
-        String id3 = idService.genrateId();
-        Order order1 = shopService.addOrder(id,products);
-        Order order2 = shopService.addOrder(id2,products);
-        Order order3 = shopService.addOrder(id3,products);
-        order1 = shopService.updateOrder(id);
+
+        Order order1 = shopService.addOrder(products);
+        Order order2 = shopService.addOrder(products);
+        Order order3 = shopService.addOrder(products);
+        order1 = shopService.updateOrder(order1.id());
 
         Map<OrderStatus,Order> expected = new HashMap<>();
 
